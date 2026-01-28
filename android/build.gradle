@@ -2,7 +2,7 @@ group 'com.os.operando.advertisingid'
 version '1.0-SNAPSHOT'
 
 buildscript {
-    ext.kotlin_version = '1.8.0'
+    ext.kotlin_version = '1.9.22' // Atualizei para uma versão mais compatível com AGP 8
     repositories {
         google()
         mavenCentral()
@@ -29,12 +29,10 @@ android {
     compileSdkVersion 34
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_11
-        targetCompatibility JavaVersion.VERSION_11
-    }
-
-    kotlinOptions {
-        jvmTarget = '11'
+        // AGP 8 roda melhor com Java 17. 
+        // Se seu app principal usa 21, 17 aqui é seguro.
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
 
     sourceSets {
@@ -45,12 +43,23 @@ android {
         minSdkVersion 21
     }
 
-    lintOptions {
-        disable 'InvalidPackage'
+    // CORREÇÃO 1: 'lintOptions' mudou para 'lint' no AGP 8
+    lint {
+        disable += 'InvalidPackage'
+    }
+}
+
+// CORREÇÃO 2: Configuração do Kotlin fora do bloco android para evitar o erro 'kotlinOptions'
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
+    kotlinOptions {
+        jvmTarget = "17"
     }
 }
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    // A stdlib já vem incluída nas versões novas do plugin do Kotlin,
+    // mas se precisar, use a versão genérica:
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version" 
+    
     implementation "com.google.android.gms:play-services-ads-identifier:18.1.0"
 }

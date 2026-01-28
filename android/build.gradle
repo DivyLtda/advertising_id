@@ -22,11 +22,10 @@ rootProject.allprojects {
 }
 
 apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android'
 
 android {
     namespace 'com.os.operando.advertisingid'
-    compileSdkVersion 34
+    compileSdkVersion 36
 
     compileOptions {
         // AGP 8 roda melhor com Java 17. 
@@ -40,7 +39,8 @@ android {
     }
 
     defaultConfig {
-        minSdkVersion 21
+        minSdkVersion 29
+        targetSdkVersion 36
     }
 
     // CORREÇÃO 1: 'lintOptions' mudou para 'lint' no AGP 8

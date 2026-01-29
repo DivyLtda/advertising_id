@@ -2,14 +2,14 @@ group 'com.os.operando.advertisingid'
 version '1.0-SNAPSHOT'
 
 buildscript {
-    ext.kotlin_version = '1.9.22' // Atualizei para uma versão mais compatível com AGP 8
+    ext.kotlin_version = '2.2.0' // Atualizei para uma versão mais compatível com AGP 8
     repositories {
         google()
         mavenCentral()
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:8.4.2'
+        classpath 'com.android.tools.build:gradle:8.13.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
@@ -22,16 +22,15 @@ rootProject.allprojects {
 }
 
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
 
 android {
     namespace 'com.os.operando.advertisingid'
     compileSdkVersion 36
 
     compileOptions {
-        // AGP 8 roda melhor com Java 17. 
-        // Se seu app principal usa 21, 17 aqui é seguro.
-        sourceCompatibility JavaVersion.VERSION_17
-        targetCompatibility JavaVersion.VERSION_17
+        sourceCompatibility JavaVersion.VERSION_21
+        targetCompatibility JavaVersion.VERSION_21
     }
 
     sourceSets {
@@ -52,7 +51,7 @@ android {
 // CORREÇÃO 2: Configuração do Kotlin fora do bloco android para evitar o erro 'kotlinOptions'
 tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
     kotlinOptions {
-        jvmTarget = "17"
+        jvmTarget = "21"
     }
 }
 
